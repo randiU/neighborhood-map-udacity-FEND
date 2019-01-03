@@ -1,8 +1,9 @@
 import React, { Component } from 'react';
 import './App.css';
 import Map from './map'
-import neighborhoodAPI from './api/neighborhoodAPI.js'
+import * as neighborhoodAPI from './api/neighborhoodAPI.js'
 import Filter from './Filter'
+import axios from 'axios'
 
 class App extends Component {
 
@@ -13,6 +14,7 @@ class App extends Component {
 
   componentDidMount() {
     this.renderMap()
+    neighborhoodAPI.getVenues()
   }
 
   renderMap = () => {
