@@ -20,9 +20,19 @@ export const getVenues = () => {
 		return response.json();
 	}).then(data => {
 		this.setState({
-			venues: data.venues.name,
+			venues: data.venues.name
 		})
 	}).catch(err => {
 		console.log("error! " + err);
 	})
 }
+
+//fetching the specific information about each venue found through the venue ID
+export const getVenueDetails = (venueID) => {
+	let venueDetailsUrl = `https://api.foursquare.com/v2/venues/${venueID}?client_id=3SQAOU5JEOCWPWRMDUR34UMIB53LPCJXCVBD0JGDZID3IXM5&client_secret=YGCN3WNHQQ04NMICPYOGQGBDZ5L233JPXBDBYRQYVH3GCPLC&v=20190103`;
+
+	return fetch(venueDetailsUrl).then(res => res.json())
+		.then(data => data.response.venue)
+}
+
+

@@ -47,7 +47,10 @@ class App extends Component {
       position: {lat: myVenue.location.lat, lng: myVenue.location.lng},
       map: map,
       title: 'Hello World!'
+
     });
+
+    console.log(neighborhoodAPI.getVenueDetails(myVenue.id));
    })
    
    
