@@ -10,13 +10,11 @@ class App extends Component {
   state = {
     center: {lat: 43.6169361, lng: -116.2053802},
     zoom: 13,
-    venues: [],
-    monkey: 'monkey'
+    venues: []
   }
 
   componentDidMount() {
-    this.renderMap()
-    
+    //getting the venue information from our foursquare api
     fetch('https://api.foursquare.com/v2/venues/search?ll=43.6169361,-116.2053802&intent=browse&radius=2000&query=breakfast,donuts&client_id=3SQAOU5JEOCWPWRMDUR34UMIB53LPCJXCVBD0JGDZID3IXM5&client_secret=YGCN3WNHQQ04NMICPYOGQGBDZ5L233JPXBDBYRQYVH3GCPLC&v=20190101')
       .then(response => {
         return response.json();
@@ -24,7 +22,8 @@ class App extends Component {
         console.log(data.response.venues);
         this.setState({
           venues: data.response.venues
-        })
+        }, this.renderMap()) //we need to use this function as a callback to the setState so it doesn't run until the venue array has been filled in
+        //Elharony https://www.youtube.com/watch?v=nDJ00zO9X2U
       }).catch(err => {
         console.log("error! " + err);
     })
@@ -40,6 +39,18 @@ class App extends Component {
       center: this.state.center,
       zoom: this.state.zoom
     });
+
+   this.state.venues.map(myVenue => {
+
+    //Google Maps Platform, Markers
+    const marker = new window.google.maps.Marker({
+      position: {lat: myVenue.location.lat, lng: myVenue.location.lng},
+      map: map,
+      title: 'Hello World!'
+    });
+   })
+   
+   
   }
 
   render() {
