@@ -9,12 +9,25 @@ class App extends Component {
 
   state = {
     center: {lat: 43.6169361, lng: -116.2053802},
-    zoom: 13
+    zoom: 13,
+    venues: [],
+    monkey: 'monkey'
   }
 
   componentDidMount() {
     this.renderMap()
-    neighborhoodAPI.getVenues()
+    
+    fetch('https://api.foursquare.com/v2/venues/search?ll=43.6169361,-116.2053802&intent=browse&radius=2000&query=breakfast,donuts&client_id=3SQAOU5JEOCWPWRMDUR34UMIB53LPCJXCVBD0JGDZID3IXM5&client_secret=YGCN3WNHQQ04NMICPYOGQGBDZ5L233JPXBDBYRQYVH3GCPLC&v=20190101')
+      .then(response => {
+        return response.json();
+      }).then(data => {
+        console.log(data.response.venues);
+        this.setState({
+          venues: data.response.venues
+        })
+      }).catch(err => {
+        console.log("error! " + err);
+    })
   }
 
   renderMap = () => {
@@ -32,8 +45,13 @@ class App extends Component {
   render() {
     return (
       <main>
-        <div id='map'></div>
-        <Filter />
+        <div className= "container">
+          <div id='map'></div>
+        
+        <Filter className= "filter"
+        
+        />
+        </div>
       </main>
     );
   }

@@ -1,5 +1,7 @@
 #map {
   height: 600px;
+  display: block;
+  width: 100%;
 }
 
 html, body {
@@ -8,3 +10,7 @@ html, body {
   padding: 0;
 }
 
+
+.filter {
+  width: 50%;
+}
