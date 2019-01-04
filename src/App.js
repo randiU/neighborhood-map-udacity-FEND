@@ -1,9 +1,9 @@
 import React, { Component } from 'react';
 import './App.css';
-import Map from './map'
+// import Map from './map'
 import * as neighborhoodAPI from './api/neighborhoodAPI.js'
 import Filter from './Filter'
-import axios from 'axios'
+// import axios from 'axios'
 
 class App extends Component {
 
@@ -14,18 +14,15 @@ class App extends Component {
   }
 
   componentDidMount() {
-    //getting the venue information from our foursquare api
-    fetch('https://api.foursquare.com/v2/venues/search?ll=43.6169361,-116.2053802&intent=browse&radius=2000&query=breakfast,donuts&client_id=3SQAOU5JEOCWPWRMDUR34UMIB53LPCJXCVBD0JGDZID3IXM5&client_secret=YGCN3WNHQQ04NMICPYOGQGBDZ5L233JPXBDBYRQYVH3GCPLC&v=20190101')
-      .then(response => {
-        return response.json();
-      }).then(data => {
-        console.log(data.response.venues);
-        this.setState({
-          venues: data.response.venues
-        }, this.renderMap()) //we need to use this function as a callback to the setState so it doesn't run until the venue array has been filled in
-        //Elharony https://www.youtube.com/watch?v=nDJ00zO9X2U
-      }).catch(err => {
-        console.log("error! " + err);
+   
+    neighborhoodAPI.getVenues().then(data => {
+      console.log(data.response.venues);
+      this.setState({
+        venues: data.response.venues
+      }, this.renderMap())//we need to use this function as a callback to the setState so it doesn't run until the venue array has been filled in
+    //Elharony https://www.youtube.com/watch?v=nDJ00zO9X2U
+    }).catch(err => {
+      console.log('error! ' + err);
     })
   }
 
@@ -46,7 +43,7 @@ class App extends Component {
     const marker = new window.google.maps.Marker({
       position: {lat: myVenue.location.lat, lng: myVenue.location.lng},
       map: map,
-      title: 'Hello World!'
+      title: myVenue.name
 
     });
 
