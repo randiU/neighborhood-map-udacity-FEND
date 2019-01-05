@@ -10,7 +10,8 @@ class App extends Component {
   state = {
     center: {lat: 43.6169361, lng: -116.2053802},
     zoom: 15,
-    venues: []
+    venues: [],
+    markers:[]
   }
 
   componentDidMount() {
@@ -34,14 +35,19 @@ class App extends Component {
 
 //Creating the google map
   initMap = () => {
+
    const map = new window.google.maps.Map(document.getElementById('map'), {
       center: this.state.center,
       zoom: this.state.zoom
     });
 
-   const largeInfowindow = new window.google.maps.InfoWindow();
-   //mapping over the venue array to create markers and related info windows
-   this.state.venues.map(myVenue => {
+   this.mapMarkers(map);
+  }
+  //maps through state venue array and creates the markers based on that array
+  mapMarkers = (myMap) => {
+    const largeInfowindow = new window.google.maps.InfoWindow();
+
+    this.state.venues.map(myVenue => {
 
     let contentString = `${myVenue.name}`
     //info window
@@ -51,7 +57,7 @@ class App extends Component {
     //Google Maps Platform, Markers
     const marker = new window.google.maps.Marker({
       position: {lat: myVenue.location.lat, lng: myVenue.location.lng},
-      map: map,
+      map: myMap,
       title: myVenue.name
     });
 
@@ -61,7 +67,6 @@ class App extends Component {
 
     console.log(neighborhoodAPI.getVenueDetails(myVenue.id));
    })   
-
    // Udacity Getting Started With APIs course
    // This function populates the infowindow when the marker is clicked. We'll only allow
    // one infowindow which will open at the marker that is clicked, and populate based
@@ -71,7 +76,7 @@ class App extends Component {
     if (infowindow.marker != marker) {
       infowindow.marker = marker;
       infowindow.setContent('<div>' + marker.title + '</div>');
-      infowindow.open(map, marker);
+      infowindow.open(myMap, marker);
       // Make sure the marker property is cleared if the infowindow is closed.
       infowindow.addListener('closeclick',function(){
         infowindow.setMarker = null;
