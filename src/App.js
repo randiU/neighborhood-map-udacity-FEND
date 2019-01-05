@@ -1,9 +1,8 @@
 import React, { Component } from 'react';
 import './App.css';
-// import Map from './map'
 import * as neighborhoodAPI from './api/neighborhoodAPI.js'
 import Filter from './Filter'
-// import axios from 'axios'
+
 
 class App extends Component {
 
@@ -13,7 +12,8 @@ class App extends Component {
     venues: [],
     markers:[]
   }
-
+ 
+ /********************************************************************/
   componentDidMount() {
     //Grabbing venue data and updating the venues state to returned array
     neighborhoodAPI.getVenues().then(data => {
@@ -29,26 +29,29 @@ class App extends Component {
 
 
   renderMap = () => {
+    //loadScript loads and executes the script, which is the Maps Javascipt API. Calls initMap.
     loadScript("https://maps.googleapis.com/maps/api/js?v=3&key=AIzaSyDd7-K4U0STJIqxo--RD9D_XHTuUx1VJ8s&callback=initMap")
     window.initMap = this.initMap
   }
 
+
 //Creating the google map
   initMap = () => {
-
+    //initializes the map using the required center and zoom, which is set in the state
    const map = new window.google.maps.Map(document.getElementById('map'), {
       center: this.state.center,
-      zoom: this.state.zoom
+      zoom: this.state.zoom,
+      mapTypeControl: false
     });
 
    this.mapMarkers(map);
   }
+
   //maps through state venue array and creates the markers based on that array
   mapMarkers = (myMap) => {
     const largeInfowindow = new window.google.maps.InfoWindow();
-
+    //loops through venues in the state and creates a marker with content and and an info window for each venue item
     this.state.venues.map(myVenue => {
-
     let contentString = `${myVenue.name}`
     //info window
     const infowindow = new window.google.maps.InfoWindow({
@@ -58,15 +61,16 @@ class App extends Component {
     const marker = new window.google.maps.Marker({
       position: {lat: myVenue.location.lat, lng: myVenue.location.lng},
       map: myMap,
-      title: myVenue.name
+      title: myVenue.name,
+      animation: window.google.maps.Animation.DROP
     });
 
     marker.addListener('click', function() {
           populateInfoWindow(this, largeInfowindow);
         });
-
     console.log(neighborhoodAPI.getVenueDetails(myVenue.id));
-   })   
+   }) 
+
    // Udacity Getting Started With APIs course
    // This function populates the infowindow when the marker is clicked. We'll only allow
    // one infowindow which will open at the marker that is clicked, and populate based
@@ -84,6 +88,19 @@ class App extends Component {
     }  
     }
   }
+/*****************************************************************************/
+  
+  updateVenue = (newVenueInfo) => {
+    this.setState({
+      venues: newVenueInfo
+    })
+  }
+
+  getVenues = () => {
+    return this.state.venues
+  }
+
+/*****************************************************************************/
 
   render() {
     return (
@@ -95,7 +112,9 @@ class App extends Component {
           <div id='map'></div>
         
         <Filter className= "filter"
-        
+          myVenues = {this.state.venues}
+          updateVenue = {this.updateVenue}
+          getVenues = {this.getVenues}
         />
         </div>
       </main>
