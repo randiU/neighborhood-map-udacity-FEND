@@ -33,7 +33,14 @@ class Filter extends Component {
  	
 
 	render() {
-		const myVenues = this.props.myVenues
+		const filteredVenues = this.props.myVenues.filter(
+			(venue) => {
+				return venue.name.toLowerCase()
+				.indexOf(this.state.query.toLowerCase()) !== -1;
+				console.log(filteredVenues)
+			}
+			
+			);
 	return(
 		<div id="filter">
 			{console.log(this.props.myVenues)}
@@ -45,10 +52,14 @@ class Filter extends Component {
 				onChange={this.handleChange}
 				/>
 			</div>
-			<VenueResults 
-				myVenues = {myVenues}
-
-			/>
+			<div>
+				{filteredVenues.map(indVenue => (
+					<div key={indVenue.id}>
+						<h3> {indVenue.name} </h3>
+					</ div>
+					))
+				}
+			</div>
 		</div>
 	    )
     }

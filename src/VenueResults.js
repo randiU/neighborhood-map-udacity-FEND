@@ -2,7 +2,7 @@ import React, {Component} from 'react'
 
 class VenueResults extends Component {
 	render() {
-		const venueList = this.props.myVenues;
+		const venueList = this.props.filteredVenues;
 
 		return(
 			<div> {venueList.map(indVenue => (
