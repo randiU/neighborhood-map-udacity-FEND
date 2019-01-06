@@ -1,10 +1,12 @@
 import React, {Component} from 'react'
 import VenueResults from './VenueResults'
+import * as neighborhoodAPI from './api/neighborhoodAPI.js'
 
 class Filter extends Component {
-	// state = {
-	// 	query: ''
-	// }
+	state = {
+		query: '',
+		venues: []
+	}
 
 	// handleChange = (e) => {
  //    this.setState({
@@ -13,26 +15,28 @@ class Filter extends Component {
  //    // this.props.onChange(event.target.value)
  // 	}
 
- 	constructor() {
- 		super()
- 		this.state = {
- 			query: '',
- 			venues: []
- 		}
- 	}
+ 	// constructor() {
+ 	// 	super()
+ 	// 	this.state = {
+ 	// 		query: '',
+ 	// 		venues: []
+ 	// 	}
+ 	// }
+
 
  	handleChange = (e) => {
  		this.setState({
  			query: e.target.value
  		});
-
  	}
 
+ 	
+
 	render() {
+		const myVenues = this.props.myVenues
 	return(
 		<div id="filter">
 			{console.log(this.props.myVenues)}
-			{console.log(this.props.getVenues)}
 			<div className="filter-box"> 
 				<label htmlFor="filter">Filter Venue Results: </label>
 				<input id="venue-search" 
@@ -42,7 +46,7 @@ class Filter extends Component {
 				/>
 			</div>
 			<VenueResults 
-				myVenues = {this.props.myVenues}
+				myVenues = {myVenues}
 
 			/>
 		</div>

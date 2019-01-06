@@ -9,9 +9,9 @@ class App extends Component {
   state = {
     center: {lat: 43.6169361, lng: -116.2053802},
     zoom: 15,
-    venues: [],
-    markers:[]
+    venues: []
   }
+
  
  /********************************************************************/
   componentDidMount() {
@@ -23,9 +23,10 @@ class App extends Component {
       }, this.renderMap())//we need to use this function as a callback to the setState so it doesn't run until the venue array has been filled in
     //Elharony https://www.youtube.com/watch?v=nDJ00zO9X2U
     }).catch(err => {
-      console.log('error! ' + err);
+      alert("Sorry! There was an error with the request.");
     })
   }
+
 
 
   renderMap = () => {
@@ -103,10 +104,13 @@ class App extends Component {
 /*****************************************************************************/
 
   render() {
+
+    const venue = this.state.venues
     return (
       <main>
         <div className= "header">
           <h1> Downtown Boise Loves Coffee & Donuts </h1>
+          }
         </div>
         <div className= "container">
           <div id='map'></div>
@@ -114,7 +118,6 @@ class App extends Component {
         <Filter className= "filter"
           myVenues = {this.state.venues}
           updateVenue = {this.updateVenue}
-          getVenues = {this.getVenues}
         />
         </div>
       </main>
