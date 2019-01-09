@@ -5,11 +5,13 @@ class VenueResults extends Component {
 		const venueList = this.props.filteredVenues;
 
 		return(
+
 			<div> {venueList.map(indVenue => (
 				<div key={indVenue.id}>
 					<h3> {indVenue.name} </h3>
 				</ div>
-				))} </div>
+				))} 
+			</div>
 			)
 	}
 }

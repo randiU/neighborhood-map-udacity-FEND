@@ -9,7 +9,8 @@ class App extends Component {
   state = {
     center: {lat: 43.6169361, lng: -116.2053802},
     zoom: 15,
-    venues: []
+    venues: [],
+    originalVenues: []
   }
 
  
@@ -20,8 +21,10 @@ class App extends Component {
       console.log(data.response.venues);
       this.setState({
         venues: data.response.venues
-      }, this.renderMap())//we need to use this function as a callback to the setState so it doesn't run until the venue array has been filled in
-    //Elharony https://www.youtube.com/watch?v=nDJ00zO9X2U
+      }, this.renderMap()) //we need to use this function as a callback to the setState 
+      //so it doesn't run until the venue array has been filled in
+      //Elharony https://www.youtube.com/watch?v=nDJ00zO9X2U
+      this.setState({originalVenues: data.response.venues})
     }).catch(err => {
       alert("Sorry! There was an error with the request.");
     })
@@ -78,7 +81,7 @@ class App extends Component {
    // on that markers position.
   function populateInfoWindow(marker, infowindow) {
   // Check to make sure the infowindow is not already opened on this marker.
-    if (infowindow.marker != marker) {
+    if (infowindow.marker !== marker) {
       infowindow.marker = marker;
       infowindow.setContent('<div>' + marker.title + '</div>');
       infowindow.open(myMap, marker);
@@ -101,6 +104,17 @@ class App extends Component {
     return this.state.venues
   }
 
+  //emyengineer neighborhood-map https://github.com/emyengineer/neighbourhood-map/blob/master/src/components/SearchPlaces.js
+  updateMarkers = (newVenues, query) => {
+    if(query) {
+      this.setState((state) => ({
+        venues: this.state.newVenues
+      }))
+    }else {
+      this.setState({venues: this.state.originalVenues})
+    }
+  }
+
 /*****************************************************************************/
 
   render() {
@@ -118,6 +132,7 @@ class App extends Component {
         <Filter className= "filter"
           myVenues = {this.state.venues}
           updateVenue = {this.updateVenue}
+          updateMarkers = {this.updateMarkers}
         />
         </div>
       </main>

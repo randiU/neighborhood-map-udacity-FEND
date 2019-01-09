@@ -30,26 +30,51 @@ class Filter extends Component {
  		});
  	}
 
- 	
+ 	// filterVenues = (venueList) => {
+ 	// 	const updatedVenueList = [];
+ 	// 	venueList.filter(
+ 	// 		(venue) => {
+ 	// 			const matchingVenue = venue.name.toLowerCase()
+ 	// 			.indexOf(this.state.query.toLowerCase()) !== -1;
+ 	// 			return matchingVenue;
+ 	// 			updatedVenueList.push(matchingVenue);
+ 	// 		}
+ 	// 	)
+ 	// 	this.setState({
+ 	// 		venues: updatedVenueList
+ 	// 	})
+ 	// }
+
+ 	//takes the filtered venues and sets the new list to the venue state
+ 	 
 
 	render() {
+		const updateVenues = this.props.updateVenue
+		const newFilterList = [];
 		const filteredVenues = this.props.myVenues.filter(
 			(venue) => {
-				return venue.name.toLowerCase()
+				const newVenues = venue.name.toLowerCase()
 				.indexOf(this.state.query.toLowerCase()) !== -1;
-				console.log(filteredVenues)
+				return newVenues
 			}
 			
 			);
+
+			// const filteredVenues = this.filterVenues(this.props.myVenues)
 	return(
 		<div id="filter">
-			{console.log(this.props.myVenues)}
+
+			{console.log(this.props.myVenues + "current venues")}
+			{console.log(newFilterList)}
 			<div className="filter-box"> 
 				<label htmlFor="filter">Filter Venue Results: </label>
 				<input id="venue-search" 
 				type="text" 
 				value={this.state.query}
-				onChange={this.handleChange}
+				onChange={ (e) => {
+					this.handleChange(e);
+					this.props.updateVenue(filteredVenues)
+				}}
 				/>
 			</div>
 			<div>
@@ -60,6 +85,7 @@ class Filter extends Component {
 					))
 				}
 			</div>
+
 		</div>
 	    )
     }
