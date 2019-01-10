@@ -98,22 +98,10 @@ class App extends Component {
     this.setState({
       venues: newVenueInfo
     })
+    //resets markers based on the new venues from the filtered list
+    this.initMap()
   }
 
-  getVenues = () => {
-    return this.state.venues
-  }
-
-  //emyengineer neighborhood-map https://github.com/emyengineer/neighbourhood-map/blob/master/src/components/SearchPlaces.js
-  updateMarkers = (newVenues, query) => {
-    if(query) {
-      this.setState((state) => ({
-        venues: this.state.newVenues
-      }))
-    }else {
-      this.setState({venues: this.state.originalVenues})
-    }
-  }
 
 /*****************************************************************************/
 
@@ -132,8 +120,9 @@ class App extends Component {
         <Filter className= "filter"
           myVenues = {this.state.venues}
           updateVenue = {this.updateVenue}
-          updateMarkers = {this.updateMarkers}
           initMap = {this.initMap}
+          originalVenues = {this.state.originalVenues}
+          filterVenues = {this.filterVenues}
         />
         </div>
       </main>
