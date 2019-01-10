@@ -21,8 +21,9 @@ class Filter extends Component {
  	}	 
 
 	render() {
-		const updateVenues = this.props.updateVenue
-		const newFilterList = [];
+		// const updateVenues = this.props.updateVenue
+		// const newFilterList = [];
+		const originalVenues = this.props.originalVenues
 		const filteredVenues = this.props.myVenues.filter(
 			(venue) => {
 				const newVenues = venue.name.toLowerCase()
@@ -32,23 +33,26 @@ class Filter extends Component {
 
 	return(
 		<div id="filter">
-
-			{console.log(this.props.myVenues + "current venues")}
-			{console.log(newFilterList)}
 			<div className="filter-box"> 
-				<label htmlFor="filter">Filter Venue Results: </label>
-				<input id="venue-search" 
-				type="text" 
-				value={this.state.query}
-				onChange={ (e) => {
-					this.handleChange(e);
-					this.props.updateVenue(filteredVenues);					
-				}}
+				<label htmlFor="filter">Filter Venue Results: 
+					<input id="venue-search" 
+					type="text" 
+					value={this.state.query}
+					onChange={ (e) => {
+						this.handleChange(e);
+						this.props.updateVenue(filteredVenues);					
+					}}
+					/>
+				</label>
+				<input type='submit' value='Reset Search' 
+					onClick={ (e) => 
+						this.props.resetVenues(originalVenues)
+					}
 				/>
 			</div>
 			<div>
 				{/*creates list of venues based on filter*/}
-				{filteredVenues.map(indVenue => (
+				{this.props.myVenues.map(indVenue => (
 					<div key={indVenue.id}>
 						<h3> {indVenue.name} </h3>
 					</ div>

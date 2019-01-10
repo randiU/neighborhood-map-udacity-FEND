@@ -102,6 +102,12 @@ class App extends Component {
     this.initMap()
   }
 
+  resetVenues = (originalVenues) => {
+    this.setState({
+      venues: originalVenues
+    })
+    this.initMap()
+  }
 
 /*****************************************************************************/
 
@@ -122,7 +128,7 @@ class App extends Component {
           updateVenue = {this.updateVenue}
           initMap = {this.initMap}
           originalVenues = {this.state.originalVenues}
-          filterVenues = {this.filterVenues}
+          resetVenues = {this.resetVenues}
         />
         </div>
       </main>
