@@ -133,6 +133,7 @@ class App extends Component {
           myVenues = {this.state.venues}
           updateVenue = {this.updateVenue}
           updateMarkers = {this.updateMarkers}
+          initMap = {this.initMap}
         />
         </div>
       </main>

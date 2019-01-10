@@ -73,7 +73,8 @@ class Filter extends Component {
 				value={this.state.query}
 				onChange={ (e) => {
 					this.handleChange(e);
-					this.props.updateVenue(filteredVenues)
+					this.props.updateVenue(filteredVenues);
+					this.props.initMap()
 				}}
 				/>
 			</div>
