@@ -99,14 +99,7 @@ class App extends Component {
       venues: newVenueInfo
     })
     //resets markers based on the new venues from the filtered list
-    this.initMap()
-  }
-
-  resetVenues = (originalVenues) => {
-    this.setState({
-      venues: originalVenues
-    })
-    this.initMap()
+    setTimeout(function(){this.initMap()}, 10);
   }
 
 /*****************************************************************************/

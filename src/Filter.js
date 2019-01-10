@@ -1,6 +1,7 @@
 import React, {Component} from 'react'
 import VenueResults from './VenueResults'
 import * as neighborhoodAPI from './api/neighborhoodAPI.js'
+import VenueList from './VenueList'
 
 class Filter extends Component {
 	state = {
@@ -13,10 +14,6 @@ class Filter extends Component {
  		this.setState({
  			query: e.target.value
  		})
-
- 	}
-
- 	filteredVenues = (venueList) => {
 
  	}	 
 
@@ -39,26 +36,26 @@ class Filter extends Component {
 					type="text" 
 					value={this.state.query}
 					onChange={ (e) => {
-						this.handleChange(e);
-						this.props.updateVenue(filteredVenues);					
+						this.handleChange(e);					
 					}}
 					/>
 				</label>
+				<input type='submit' value='Find Venue' 
+					onClick={ (e) => {
+						this.handleChange(e);
+						this.props.updateVenue(filteredVenues);
+						}
+					}
+				/>
 				<input type='submit' value='Reset Search' 
 					onClick={ (e) => 
-						this.props.resetVenues(originalVenues)
+						this.props.updateVenue(originalVenues)
 					}
 				/>
 			</div>
-			<div>
-				{/*creates list of venues based on filter*/}
-				{this.props.myVenues.map(indVenue => (
-					<div key={indVenue.id}>
-						<h3> {indVenue.name} </h3>
-					</ div>
-					))
-				}
-			</div>
+			<VenueList 
+				myVenues = {this.props.myVenues}
+			/>
 
 		</div>
 	    )
