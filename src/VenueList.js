@@ -7,7 +7,9 @@ class VenueList extends Component {
 				{/*creates list of venues based on filter*/}
 				{this.props.myVenues.map(indVenue => (
 					<div key={indVenue.id}>
-						<h3> {indVenue.name} </h3>
+						<a href='#' onClick={console.log('clicked')}>
+							<h3> {indVenue.name} </h3>
+						</a>
 					</ div>
 					))
 				}

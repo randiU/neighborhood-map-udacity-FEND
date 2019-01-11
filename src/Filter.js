@@ -6,7 +6,6 @@ import VenueList from './VenueList'
 class Filter extends Component {
 	state = {
 		query: '',
-		venues: this.props.myVenues
 	}
 
 

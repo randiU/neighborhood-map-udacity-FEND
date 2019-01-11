@@ -102,6 +102,8 @@ class App extends Component {
     setTimeout(function(){this.initMap()}, 10);
   }
 
+
+
 /*****************************************************************************/
 
   render() {
@@ -111,7 +113,6 @@ class App extends Component {
       <main>
         <div className= "header">
           <h1> Downtown Boise Loves Coffee & Donuts </h1>
-          }
         </div>
         <div className= "container">
           <div id='map'></div>
