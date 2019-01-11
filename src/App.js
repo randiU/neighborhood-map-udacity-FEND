@@ -10,7 +10,8 @@ class App extends Component {
     center: {lat: 43.6169361, lng: -116.2053802},
     zoom: 15,
     venues: [],
-    originalVenues: []
+    originalVenues: [],
+    markers: []
   }
 
  
@@ -53,7 +54,9 @@ class App extends Component {
 
   //maps through state venue array and creates the markers based on that array
   mapMarkers = (myMap) => {
-    const largeInfowindow = new window.google.maps.InfoWindow();
+    const largeInfowindow = new window.google.maps.InfoWindow()
+    const markers = []
+
     //loops through venues in the state and creates a marker with content and and an info window for each venue item
     this.state.venues.map(myVenue => {
     let contentString = `${myVenue.name}`
@@ -68,6 +71,11 @@ class App extends Component {
       title: myVenue.name,
       animation: window.google.maps.Animation.DROP
     });
+
+    markers.push(marker)
+    this.setState({
+      markers: markers
+    })
 
     marker.addListener('click', function() {
           populateInfoWindow(this, largeInfowindow);
@@ -99,7 +107,7 @@ class App extends Component {
       venues: newVenueInfo
     })
     //resets markers based on the new venues from the filtered list
-    setTimeout(function(){this.initMap()}, 10);
+    setTimeout(function(){this.initMap()}, 10); 
   }
 
 
