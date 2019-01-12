@@ -5,7 +5,9 @@ class FilteredListItem extends Component {
 		return (
 
 			<li className = 'listItem' onClick = { () =>
-				console.log(this.props)}>
+				this.props.animateMarker(this.props)
+				// console.log(this.props)
+			}>
 				
 				{this.props.venue.name}
 			</li>

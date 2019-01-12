@@ -53,6 +53,7 @@ class Filter extends Component {
 			</div>
 			<VenueList 
 				myVenues = {this.props.myVenues}
+				animateMarker = {this.props.animateMarker}
 			/>
 
 		</div>

@@ -110,6 +110,16 @@ class App extends Component {
     setTimeout(function(){this.initMap()}, 10); 
   }
 
+  animateMarker = (venueItem) => {
+  
+    const marker = this.state.markers.find(marker => marker.title === venueItem.venue.name)
+    marker.setAnimation(window.google.maps.Animation.BOUNCE)
+    console.log(marker)
+    setTimeout(function(){
+      marker.setAnimation(null)
+    }, 800);
+  }
+
 
 
 /*****************************************************************************/
@@ -122,7 +132,6 @@ class App extends Component {
         <div className= "header">
           {console.log(this.state.markers)}
           <h1> Downtown Boise Loves Coffee & Donuts </h1>
-          }
         </div>
         <div className= "container">
           <div id='map'></div>
@@ -133,6 +142,7 @@ class App extends Component {
           initMap = {this.initMap}
           originalVenues = {this.state.originalVenues}
           resetVenues = {this.resetVenues}
+          animateMarker = {this.animateMarker}
         />
         </div>
       </main>

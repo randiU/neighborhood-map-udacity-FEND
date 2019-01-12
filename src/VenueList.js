@@ -15,6 +15,7 @@ class VenueList extends Component {
 					<FilteredListItem 
 					key={indVenue.id}
 					venue = {indVenue}
+					animateMarker = {this.props.animateMarker}
 					/> 
 					))
 				}
