@@ -120,7 +120,9 @@ class App extends Component {
     return (
       <main>
         <div className= "header">
+          {console.log(this.state.markers)}
           <h1> Downtown Boise Loves Coffee & Donuts </h1>
+          }
         </div>
         <div className= "container">
           <div id='map'></div>

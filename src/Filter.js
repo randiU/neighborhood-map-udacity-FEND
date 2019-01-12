@@ -1,5 +1,4 @@
 import React, {Component} from 'react'
-import VenueResults from './VenueResults'
 import * as neighborhoodAPI from './api/neighborhoodAPI.js'
 import VenueList from './VenueList'
 
