@@ -1,5 +1,4 @@
 import React, {Component} from 'react'
-import * as neighborhoodAPI from './api/neighborhoodAPI.js'
 import VenueList from './VenueList'
 
 class Filter extends Component {
@@ -7,7 +6,7 @@ class Filter extends Component {
 		query: '',
 	}
 
-
+	//updates the state query based on the user input
  	handleChange = (e) => {
  		this.setState({
  			query: e.target.value
@@ -16,9 +15,11 @@ class Filter extends Component {
  	}	 
 
 	render() {
-		// const updateVenues = this.props.updateVenue
-		// const newFilterList = [];
 		const originalVenues = this.props.originalVenues
+
+		/*filters the venue list by the state query (user input)
+		https://www.youtube.com/watch?v=OlVkYnVXPl0 
+		LevelUpTuts Building A Search Filter */
 		const filteredVenues = this.props.myVenues.filter(
 			(venue) => {
 				const newVenues = venue.name.toLowerCase()
@@ -54,6 +55,7 @@ class Filter extends Component {
 			<VenueList 
 				myVenues = {this.props.myVenues}
 				animateMarker = {this.props.animateMarker}
+				listItemVenueOpen = {this.props.listItemVenueOpen}
 			/>
 
 		</div>

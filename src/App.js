@@ -16,15 +16,17 @@ class App extends Component {
 
  
  /********************************************************************/
+  // applies API functions
   componentDidMount() {
     //Grabbing venue data and updating the venues state to returned array
     neighborhoodAPI.getVenues().then(data => {
-      console.log(data.response.venues);
       this.setState({
         venues: data.response.venues
       }, this.renderMap()) //we need to use this function as a callback to the setState 
       //so it doesn't run until the venue array has been filled in
       //Elharony https://www.youtube.com/watch?v=nDJ00zO9X2U
+
+      //creating separate array to keep original data list on hand for resetting the filter
       this.setState({originalVenues: data.response.venues})
     }).catch(err => {
       alert("Sorry! There was an error with the request.");
@@ -49,44 +51,46 @@ class App extends Component {
       mapTypeControl: false
     });
 
-   this.mapMarkers(map);
+   this.createMapMarkers(map);
   }
 
   //maps through state venue array and creates the markers based on that array
-  mapMarkers = (myMap) => {
+  createMapMarkers = (myMap) => {
     const largeInfowindow = new window.google.maps.InfoWindow()
     const markers = []
 
-    //loops through venues in the state and creates a marker with content and and an info window for each venue item
+    /*loops through venues in the state and creates a marker with content 
+    and and an info window for each venue item */
     this.state.venues.map(myVenue => {
-    let contentString = `${myVenue.name}`
-    //info window
-    const infowindow = new window.google.maps.InfoWindow({
-          content: contentString
-        });
+    
     //Google Maps Platform, Markers
     const marker = new window.google.maps.Marker({
       position: {lat: myVenue.location.lat, lng: myVenue.location.lng},
       map: myMap,
       title: myVenue.name,
-      animation: window.google.maps.Animation.DROP
+      animation: window.google.maps.Animation.DROP,
+      //adding infowindow so access to the infowindow created in largeInfoWindow is possible
+      //for the listItemVenueOpen function. 
+      infowindow: largeInfowindow
     });
 
+    //adds each marker to the marker array in this function, then sets the state
+    //with the updated array
     markers.push(marker)
     this.setState({
       markers: markers
     })
 
+    //makes the infowindows pop up on click
     marker.addListener('click', function() {
           populateInfoWindow(this, largeInfowindow);
         });
-    console.log(neighborhoodAPI.getVenueDetails(myVenue.id));
    }) 
 
-   // Udacity Getting Started With APIs course
-   // This function populates the infowindow when the marker is clicked. We'll only allow
-   // one infowindow which will open at the marker that is clicked, and populate based
-   // on that markers position.
+   /* Udacity Getting Started With APIs course
+    This function populates the infowindow when the marker is clicked. We'll only allow
+    one infowindow which will open at the marker that is clicked, and populate based
+    on that markers position. */
   function populateInfoWindow(marker, infowindow) {
   // Check to make sure the infowindow is not already opened on this marker.
     if (infowindow.marker !== marker) {
@@ -102,6 +106,21 @@ class App extends Component {
   }
 /*****************************************************************************/
   
+  //opens the specific list item's infowindow. 
+  listItemVenueOpen = (venueItem) => {
+    /*searches the markers array to find the one that matches the 
+    venue item that the user clicks on
+    */
+    const marker = this.state.markers.find(marker => marker.title === venueItem.venue.name)
+    /*sets const to equal the specific infowindow for that marker. 
+    See comment in createMapMarker regarding infowindow in the marker*/
+    const infowindow = marker.infowindow
+    infowindow.setContent('<div>' + venueItem.venue.name + '</div>')
+    
+    //marker.map will grab the map set up initMap()
+    infowindow.open(marker.map, marker)
+  }
+
   updateVenue = (newVenueInfo) => {
     this.setState({
       venues: newVenueInfo
@@ -111,26 +130,27 @@ class App extends Component {
   }
 
   animateMarker = (venueItem) => {
-  
+    //searches the markers array to find the one that matches the venue item that the user clicks on
     const marker = this.state.markers.find(marker => marker.title === venueItem.venue.name)
     marker.setAnimation(window.google.maps.Animation.BOUNCE)
-    console.log(marker)
+    
+    //setTimeout is necessary or else markers will continuously bounce
     setTimeout(function(){
       marker.setAnimation(null)
     }, 800);
   }
 
 
+  // venueInfoWindow = ()
+
 
 /*****************************************************************************/
 
   render() {
 
-    const venue = this.state.venues
     return (
       <main>
         <div className= "header">
-          {console.log(this.state.markers)}
           <h1> Downtown Boise Loves Coffee & Donuts </h1>
         </div>
         <div className= "container">
@@ -143,6 +163,8 @@ class App extends Component {
           originalVenues = {this.state.originalVenues}
           resetVenues = {this.resetVenues}
           animateMarker = {this.animateMarker}
+          listItemVenueOpen = {this.listItemVenueOpen}
+          hideAllInfoWindows = {this.hideAllInfoWindows}
         />
         </div>
       </main>

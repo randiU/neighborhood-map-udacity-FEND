@@ -9,13 +9,11 @@ class VenueList extends Component {
 				<ol className = 'filteredVenuesList'>
 				{/*creates list of venues based on filter*/}
 				{this.props.myVenues.map(indVenue => (
-					// <div key={indVenue.id}>
-					// 		<h3> {indVenue.name} </h3>
-					// </ div>
 					<FilteredListItem 
 					key={indVenue.id}
 					venue = {indVenue}
 					animateMarker = {this.props.animateMarker}
+					listItemVenueOpen = {this.props.listItemVenueOpen}
 					/> 
 					))
 				}
