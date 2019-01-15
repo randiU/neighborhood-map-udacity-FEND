@@ -11,7 +11,8 @@ class App extends Component {
     zoom: 15,
     venues: [],
     originalVenues: [],
-    markers: []
+    markers: [],
+    venueDetails: []
   }
 
  
@@ -28,17 +29,21 @@ class App extends Component {
 
       //creating separate array to keep original data list on hand for resetting the filter
       this.setState({originalVenues: data.response.venues})
+      return data 
     }).catch(err => {
-      alert("Sorry! There was an error with the request.");
+      alert(err + "Sorry! There was an error with the request.");
     })
+    console.log(this.state.venues)
   }
+
 
 
 
   renderMap = () => {
     //loadScript loads and executes the script, which is the Maps Javascipt API. Calls initMap.
     loadScript("https://maps.googleapis.com/maps/api/js?v=3&key=AIzaSyDd7-K4U0STJIqxo--RD9D_XHTuUx1VJ8s&callback=initMap")
-    window.initMap = this.initMap
+    window.initMap = this.initMap;
+    this.updateVenueDetails(this.state.venues);
   }
 
 
@@ -104,10 +109,27 @@ class App extends Component {
     }  
     }
   }
+
+  updateVenueDetails = (venues) => {
+    const venueDetails = []
+    venues.map((indVenue) => {
+     const newVenueInfo = neighborhoodAPI.getVenueDetails(indVenue.id)
+      venueDetails.push(newVenueInfo)
+    })
+    this.setState({
+      venueDetails: venueDetails
+    })
+  }
 /*****************************************************************************/
   
   //opens the specific list item's infowindow. 
   listItemVenueOpen = (venueItem) => {
+    console.log(venueItem)
+    const venueDetails = neighborhoodAPI.getVenueDetails(venueItem.venue.id)
+    console.log(venueDetails)
+    this.setState({
+      venueDetails: venueDetails
+    })
     /*searches the markers array to find the one that matches the 
     venue item that the user clicks on
     */
@@ -115,7 +137,9 @@ class App extends Component {
     /*sets const to equal the specific infowindow for that marker. 
     See comment in createMapMarker regarding infowindow in the marker*/
     const infowindow = marker.infowindow
-    infowindow.setContent('<div>' + venueItem.venue.name + '</div>')
+    infowindow.setContent('<div>' + venueItem.venue.name + '</div>' 
+      + '<div>' + 'blah' + '</div>'
+      )
     
     //marker.map will grab the map set up initMap()
     infowindow.open(marker.map, marker)
@@ -151,7 +175,9 @@ class App extends Component {
     return (
       <main>
         <div className= "header">
+        {console.log(this.state.venues)}
           <h1> Downtown Boise Loves Coffee & Donuts </h1>
+        
         </div>
         <div className= "container">
           <div id='map'></div>
