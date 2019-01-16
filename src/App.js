@@ -194,6 +194,9 @@ function loadScript(url) {
   script.src = url;
   script.async = true;
   script.defer = true;
+  script.onerror = function() {
+    alert('Error loading Google Maps')
+  }
   index.parentNode.insertBefore(script, index);
 }
 
