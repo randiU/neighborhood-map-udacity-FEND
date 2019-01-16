@@ -33,6 +33,7 @@ class Filter extends Component {
 				<div className= "filter-input"> 
 					<label htmlFor="filter">Filter Venue Results: 
 						<input id="venue-search" 
+						role="search"
 						type="text" 
 						value={this.state.query}
 						onChange={ (e) => {

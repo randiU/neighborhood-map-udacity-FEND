@@ -8,7 +8,7 @@ class VenueResults extends Component {
 
 			<div> {venueList.map(indVenue => (
 				<div key={indVenue.id}>
-					<h3> {indVenue.name} </h3>
+					<h3 tabindex="0" role="listitem"> {indVenue.name} </h3>
 				</ div>
 				))} 
 			</div>
