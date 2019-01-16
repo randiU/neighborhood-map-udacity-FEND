@@ -1,5 +1,5 @@
 #map {
-  height: 600px;
+  height: 500px;
   display: block;
   width: 100%;
 }
@@ -10,7 +10,39 @@ html, body {
   padding: 0;
 }
 
+main {
+  width: 100%;
+  height: 100%;
+}
+
+.main-content {
+  width: 100%;
+  height: 100%;
+  /*display: flex;*/
+}
 
 .filter {
-  width: 50%;
+ overflow: scroll;
+ height: 300px;
+}
+
+.filter-box {
+  position: fixed;
+  background: grey;
+  width: 100%;
+  height: 30px;
+}
+
+.filtered-venues-list {
+  margin-top: 30px;
+} 
+
+.header {
+  background: blue;
+  width: 100%;
+  text-align: center;
+}
+
+.header h1 {
+  margin: 0;
 }

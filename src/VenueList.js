@@ -6,7 +6,7 @@ class VenueList extends Component {
 	render() {
 		return(
 			<div>
-				<ol className = 'filteredVenuesList'>
+				<ol className = "filtered-venues-list">
 				{/*creates list of venues based on filter*/}
 				{this.props.myVenues.map(indVenue => (
 					<FilteredListItem 

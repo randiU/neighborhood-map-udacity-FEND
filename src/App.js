@@ -36,14 +36,10 @@ class App extends Component {
     console.log(this.state.venues)
   }
 
-
-
-
   renderMap = () => {
     //loadScript loads and executes the script, which is the Maps Javascipt API. Calls initMap.
     loadScript("https://maps.googleapis.com/maps/api/js?v=3&key=AIzaSyDd7-K4U0STJIqxo--RD9D_XHTuUx1VJ8s&callback=initMap")
-    window.initMap = this.initMap;
-    this.updateVenueDetails(this.state.venues);
+    window.initMap = this.initMap
   }
 
 
@@ -86,9 +82,12 @@ class App extends Component {
       markers: markers
     })
 
+    const venueList = this.state.venues 
     //makes the infowindows pop up on click
     marker.addListener('click', function() {
-          populateInfoWindow(this, largeInfowindow);
+          populateInfoWindow(this, largeInfowindow, venueList);
+          marker.setAnimation(window.google.maps.Animation.BOUNCE)
+          setTimeout(function(){marker.setAnimation(null)}, 800);
         });
    }) 
 
@@ -96,40 +95,28 @@ class App extends Component {
     This function populates the infowindow when the marker is clicked. We'll only allow
     one infowindow which will open at the marker that is clicked, and populate based
     on that markers position. */
-  function populateInfoWindow(marker, infowindow) {
-  // Check to make sure the infowindow is not already opened on this marker.
+  function populateInfoWindow(marker, infowindow, venues) {
+    //matching the venue with the marker that is clicked and getting the details to use in window
+    const venueDetails = venues.find(venue => marker.title === venue.name)
+    // Check to make sure the infowindow is not already opened on this marker.
     if (infowindow.marker !== marker) {
       infowindow.marker = marker;
-      infowindow.setContent('<div>' + marker.title + '</div>');
+      infowindow.setContent('<div>' + venueDetails.name + '</div>'
+        + '<div>' + venueDetails.location.formattedAddress + '</div>');
       infowindow.open(myMap, marker);
       // Make sure the marker property is cleared if the infowindow is closed.
       infowindow.addListener('closeclick',function(){
         infowindow.setMarker = null;
-      });
-    }  
+        });
+      }  
     }
   }
 
-  updateVenueDetails = (venues) => {
-    const venueDetails = []
-    venues.map((indVenue) => {
-     const newVenueInfo = neighborhoodAPI.getVenueDetails(indVenue.id)
-      venueDetails.push(newVenueInfo)
-    })
-    this.setState({
-      venueDetails: venueDetails
-    })
-  }
+
 /*****************************************************************************/
   
   //opens the specific list item's infowindow. 
-  listItemVenueOpen = (venueItem) => {
-    console.log(venueItem)
-    const venueDetails = neighborhoodAPI.getVenueDetails(venueItem.venue.id)
-    console.log(venueDetails)
-    this.setState({
-      venueDetails: venueDetails
-    })
+  listItemVenueOpen = (venueItem) => {   
     /*searches the markers array to find the one that matches the 
     venue item that the user clicks on
     */
@@ -138,7 +125,7 @@ class App extends Component {
     See comment in createMapMarker regarding infowindow in the marker*/
     const infowindow = marker.infowindow
     infowindow.setContent('<div>' + venueItem.venue.name + '</div>' 
-      + '<div>' + 'blah' + '</div>'
+      + '<div>' + venueItem.venue.location.formattedAddress + '</div>'
       )
     
     //marker.map will grab the map set up initMap()
@@ -165,9 +152,6 @@ class App extends Component {
   }
 
 
-  // venueInfoWindow = ()
-
-
 /*****************************************************************************/
 
   render() {
@@ -176,22 +160,23 @@ class App extends Component {
       <main>
         <div className= "header">
         {console.log(this.state.venues)}
-          <h1> Downtown Boise Loves Coffee & Donuts </h1>
-        
+          <h1> Downtown Boise Coffee & Donuts </h1>
+        {console.log(this.state.venues)}
         </div>
-        <div className= "container">
-          <div id='map'></div>
-        
-        <Filter className= "filter"
-          myVenues = {this.state.venues}
-          updateVenue = {this.updateVenue}
-          initMap = {this.initMap}
-          originalVenues = {this.state.originalVenues}
-          resetVenues = {this.resetVenues}
-          animateMarker = {this.animateMarker}
-          listItemVenueOpen = {this.listItemVenueOpen}
-          hideAllInfoWindows = {this.hideAllInfoWindows}
-        />
+        <div className= "main-content">
+          <div className= "container">
+            <div id='map'></div>
+          </div>
+          <Filter className= "filter"
+            myVenues = {this.state.venues}
+            updateVenue = {this.updateVenue}
+            initMap = {this.initMap}
+            originalVenues = {this.state.originalVenues}
+            resetVenues = {this.resetVenues}
+            animateMarker = {this.animateMarker}
+            listItemVenueOpen = {this.listItemVenueOpen}
+            hideAllInfoWindows = {this.hideAllInfoWindows}
+          />
         </div>
       </main>
     );

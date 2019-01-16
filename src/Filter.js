@@ -28,7 +28,7 @@ class Filter extends Component {
 			});
 
 	return(
-		<div id="filter">
+		<div className="filter">
 			<div className="filter-box"> 
 				<label htmlFor="filter">Filter Venue Results: 
 					<input id="venue-search" 
@@ -52,7 +52,7 @@ class Filter extends Component {
 					}
 				/>
 			</div>
-			<VenueList 
+			<VenueList className= "venue-list"
 				myVenues = {this.props.myVenues}
 				animateMarker = {this.props.animateMarker}
 				listItemVenueOpen = {this.props.listItemVenueOpen}
