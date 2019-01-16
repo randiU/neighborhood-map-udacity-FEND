@@ -16,7 +16,7 @@ class Filter extends Component {
 
 	render() {
 		const originalVenues = this.props.originalVenues
-
+	
 		/*filters the venue list by the state query (user input)
 		https://www.youtube.com/watch?v=OlVkYnVXPl0 
 		LevelUpTuts Building A Search Filter */
