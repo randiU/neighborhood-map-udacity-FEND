@@ -28,29 +28,33 @@ class Filter extends Component {
 			});
 
 	return(
-		<div className="filter">
-			<div className="filter-box"> 
-				<label htmlFor="filter">Filter Venue Results: 
-					<input id="venue-search" 
-					type="text" 
-					value={this.state.query}
-					onChange={ (e) => {
-						this.handleChange(e);					
-					}}
-					/>
-				</label>
-				<input type='submit' value='Find Venue' 
-					onClick={ (e) => {
-						this.handleChange(e);
-						this.props.updateVenue(filteredVenues);
+		<div className="filter" aria-label='filter venues'>
+			<div className="filter-box">
+				<div className= "filter-input"> 
+					<label htmlFor="filter">Filter Venue Results: 
+						<input id="venue-search" 
+						type="text" 
+						value={this.state.query}
+						onChange={ (e) => {
+							this.handleChange(e);					
+						}}
+						/>
+					</label>
+				</div>
+				<div className= "button-row">
+					<input type='submit' value='Find Venue' 
+						onClick={ (e) => {
+							this.handleChange(e);
+							this.props.updateVenue(filteredVenues);
+							}
 						}
-					}
-				/>
-				<input type='submit' value='Reset Search' 
-					onClick={ (e) => 
-						this.props.updateVenue(originalVenues)
-					}
-				/>
+					/>
+					<input type='submit' value='Reset Search' 
+						onClick={ (e) => 
+							this.props.updateVenue(originalVenues)
+						}
+					/>
+				</div>
 			</div>
 			<VenueList className= "venue-list"
 				myVenues = {this.props.myVenues}

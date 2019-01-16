@@ -8,7 +8,7 @@ class App extends Component {
 
   state = {
     center: {lat: 43.6169361, lng: -116.2053802},
-    zoom: 15,
+    zoom: 14.9,
     venues: [],
     originalVenues: [],
     markers: [],
@@ -164,8 +164,11 @@ class App extends Component {
         {console.log(this.state.venues)}
         </div>
         <div className= "main-content">
-          <div className= "container">
+          <div className= "container" aria-label="Google map">
             <div id='map'></div>
+          </div>
+          <div className="site-info">
+            <h3>Site developed by Randi Umphrey and integrated with Foursquare API to get data</h3>
           </div>
           <Filter className= "filter"
             myVenues = {this.state.venues}
