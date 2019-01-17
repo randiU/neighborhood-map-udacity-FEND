@@ -197,9 +197,6 @@ class App extends Component {
               resetVenues = {this.resetVenues}
               animateMarker = {this.animateMarker}
               listItemVenueOpen = {this.listItemVenueOpen}
-              hideAllInfoWindows = {this.hideAllInfoWindows}
-              handleChange = {this.handleChange}
-              query = {this.state.query}
             />
           </div>
         </main>
