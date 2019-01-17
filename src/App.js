@@ -4,6 +4,7 @@ import * as neighborhoodAPI from './api/neighborhoodAPI.js'
 import Filter from './Filter'
 
 
+
 class App extends Component {
 
   state = {
@@ -12,7 +13,11 @@ class App extends Component {
     venues: [],
     originalVenues: [],
     markers: [],
-    venueDetails: []
+    venueDetails: [],
+    error: false,
+    // query: ''
+    dummyData: [{id:"4b5a1ed3f964a52088ae28e3", name: "I'm sorry, ", location: {formattedAddress: '123', lat: null, lng: null} }, 
+    {id: "4b5a1ed3f964a52088ae28e3", name: "There was an error with the data request. The venues are not displayed.", location: {formattedAddress: '123', lat: null, lng: null} } ]
   }
 
  
@@ -59,10 +64,10 @@ class App extends Component {
   createMapMarkers = (myMap) => {
     const largeInfowindow = new window.google.maps.InfoWindow()
     const markers = []
-
+    const venueData = this.checkVenueData()
     /*loops through venues in the state and creates a marker with content 
     and and an info window for each venue item */
-    this.state.venues.map(myVenue => {
+    venueData.map(myVenue => {
     
     //Google Maps Platform, Markers
     const marker = new window.google.maps.Marker({
@@ -151,37 +156,53 @@ class App extends Component {
     }, 800);
   }
 
+  checkVenueData = () => {
+    if (this.state.venues) {
+      return this.state.venues
+     } else {
+      return this.state.dummyData
+     }
+  }
 
 /*****************************************************************************/
 
   render() {
+    const myVenues = () => {
+     if (this.state.venues) {
+      return this.state.venues
+     } else {
+      return this.state.dummyData
+     }
+    }
 
     return (
-      <main>
-        <div className= "header">
-        {console.log(this.state.venues)}
-          <h1> Downtown Boise Coffee & Donuts </h1>
-        {console.log(this.state.venues)}
-        </div>
-        <div className= "main-content">
-          <div className= "container" aria-label="Google map">
-            <div id='map'></div>
+        <main>
+          <div className= "header">
+          {console.log(this.state.venues)}
+            <h1> Downtown Boise Coffee & Donuts </h1>
+          {console.log(this.state.venues)}
           </div>
-          <div className="site-info">
-            <h3>Site developed by Randi Umphrey and integrated with Foursquare API to get data</h3>
+          <div className= "main-content">
+            <div className= "container" aria-label="Google map">
+              <div id='map'></div>
+            </div>
+            <div className="site-info">
+              <h3>Site developed by Randi Umphrey and integrated with Foursquare API to get data</h3>
+            </div>
+            <Filter className= "filter"
+              myVenues = {myVenues()}
+              updateVenue = {this.updateVenue}
+              initMap = {this.initMap}
+              originalVenues = {this.state.originalVenues}
+              resetVenues = {this.resetVenues}
+              animateMarker = {this.animateMarker}
+              listItemVenueOpen = {this.listItemVenueOpen}
+              hideAllInfoWindows = {this.hideAllInfoWindows}
+              handleChange = {this.handleChange}
+              query = {this.state.query}
+            />
           </div>
-          <Filter className= "filter"
-            myVenues = {this.state.venues}
-            updateVenue = {this.updateVenue}
-            initMap = {this.initMap}
-            originalVenues = {this.state.originalVenues}
-            resetVenues = {this.resetVenues}
-            animateMarker = {this.animateMarker}
-            listItemVenueOpen = {this.listItemVenueOpen}
-            hideAllInfoWindows = {this.hideAllInfoWindows}
-          />
-        </div>
-      </main>
+        </main>
     );
   }
 }
